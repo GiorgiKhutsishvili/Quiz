@@ -1,0 +1,26 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" [ngClass]="{hidden: !(isHandset | async) === false}" fixedInViewport="false"
+               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'"
+               [opened]="(isHandset$ | async) === false">
+    <mat-nav-list *ngIf="authService.isAuthenticated" style="padding-top: 0px">
+      <a mat-list-item [routerLink]="['/user-management']"> &nbsp;&nbsp; <span>User Management</span></a>
+      <a mat-list-item [routerLink]="['/quote-management']"> &nbsp;&nbsp; <span>Quote management</span> </a>
+      <a mat-list-item [routerLink]="['/user-achievements']"> &nbsp;&nbsp; <span>Review User Achievements</span></a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar>
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span class="spacer"></span>
+      <button mat-raised-button color="primary" *ngIf="!authService.isAuthenticated" [routerLink]="['/account/login']">Login</button>&nbsp;&nbsp;
+      <button mat-raised-button color="primary" *ngIf="!authService.isAuthenticated" [routerLink]="['/account/register']">Register</button>
+      <button mat-raised-button color="primary" *ngIf="authService.isAuthenticated" [routerLink]="['/quotes']">Quotes</button>
+      &nbsp;&nbsp;<button mat-raised-button color="primary" *ngIf="authService.isAuthenticated" (click)="logout()">Logout</button>
+      <mat-menu #menu="matMenu">
+      </mat-menu>
+    </mat-toolbar>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

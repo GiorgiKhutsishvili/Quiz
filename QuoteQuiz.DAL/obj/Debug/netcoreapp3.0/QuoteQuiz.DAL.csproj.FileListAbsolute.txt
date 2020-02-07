@@ -1,0 +1,16 @@
+C:\Users\gio\source\repos\QuoteQuiz\QuoteQuiz.DAL\bin\Debug\netcoreapp3.0\QuoteQuiz.DAL.deps.json
+C:\Users\gio\source\repos\QuoteQuiz\QuoteQuiz.DAL\bin\Debug\netcoreapp3.0\QuoteQuiz.DAL.dll
+C:\Users\gio\source\repos\QuoteQuiz\QuoteQuiz.DAL\bin\Debug\netcoreapp3.0\QuoteQuiz.DAL.pdb
+C:\Users\gio\source\repos\QuoteQuiz\QuoteQuiz.DAL\obj\Debug\netcoreapp3.0\QuoteQuiz.DAL.AssemblyInfoInputs.cache
+C:\Users\gio\source\repos\QuoteQuiz\QuoteQuiz.DAL\obj\Debug\netcoreapp3.0\QuoteQuiz.DAL.AssemblyInfo.cs
+C:\Users\gio\source\repos\QuoteQuiz\QuoteQuiz.DAL\obj\Debug\netcoreapp3.0\QuoteQuiz.DAL.dll
+C:\Users\gio\source\repos\QuoteQuiz\QuoteQuiz.DAL\obj\Debug\netcoreapp3.0\QuoteQuiz.DAL.pdb
+C:\Users\gio\source\repos\QuoteQuiz\QuoteQuiz.DAL\obj\Debug\netcoreapp3.0\QuoteQuiz.DAL.csprojAssemblyReference.cache
+C:\Users\USER\Desktop\QuoteQuizUpdated\QuoteQuiz\QuoteQuiz.DAL\bin\Debug\netcoreapp3.0\QuoteQuiz.DAL.deps.json
+C:\Users\USER\Desktop\QuoteQuizUpdated\QuoteQuiz\QuoteQuiz.DAL\bin\Debug\netcoreapp3.0\QuoteQuiz.DAL.dll
+C:\Users\USER\Desktop\QuoteQuizUpdated\QuoteQuiz\QuoteQuiz.DAL\bin\Debug\netcoreapp3.0\QuoteQuiz.DAL.pdb
+C:\Users\USER\Desktop\QuoteQuizUpdated\QuoteQuiz\QuoteQuiz.DAL\obj\Debug\netcoreapp3.0\QuoteQuiz.DAL.csprojAssemblyReference.cache
+C:\Users\USER\Desktop\QuoteQuizUpdated\QuoteQuiz\QuoteQuiz.DAL\obj\Debug\netcoreapp3.0\QuoteQuiz.DAL.AssemblyInfoInputs.cache
+C:\Users\USER\Desktop\QuoteQuizUpdated\QuoteQuiz\QuoteQuiz.DAL\obj\Debug\netcoreapp3.0\QuoteQuiz.DAL.AssemblyInfo.cs
+C:\Users\USER\Desktop\QuoteQuizUpdated\QuoteQuiz\QuoteQuiz.DAL\obj\Debug\netcoreapp3.0\QuoteQuiz.DAL.dll
+C:\Users\USER\Desktop\QuoteQuizUpdated\QuoteQuiz\QuoteQuiz.DAL\obj\Debug\netcoreapp3.0\QuoteQuiz.DAL.pdb

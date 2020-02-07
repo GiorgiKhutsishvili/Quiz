@@ -1,0 +1,12 @@
+<form [formGroup]="quoteForm">
+  <div class="quote-management-form">
+    <mat-card>
+      <mat-form-field class="matInput">
+        <textarea formControlName="quoteText" matInput placeholder="Quote"></textarea>
+      </mat-form-field>
+      <!--<mat-checkbox>Is Correct</mat-checkbox>
+      <br/>-->
+      <button (click)="addQuote()" mat-raised-button color="primary" [disabled]="!quoteForm.valid">Add</button>
+    </mat-card>
+  </div>
+</form>

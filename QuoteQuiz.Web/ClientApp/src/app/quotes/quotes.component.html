@@ -1,0 +1,9 @@
+<div class="quote-management-form">
+  <mat-card>
+    <mat-tab-group>
+      <mat-tab label="Default Mode"> <br/> <app-default-mode *ngIf="quotes" [quotes]="quotes"></app-default-mode> </mat-tab>
+      <mat-tab label="Multiple Mode"><br/> <app-multiple-choice-mode *ngIf="quotes" [quotes]="quotes"></app-multiple-choice-mode> </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+</div>
+

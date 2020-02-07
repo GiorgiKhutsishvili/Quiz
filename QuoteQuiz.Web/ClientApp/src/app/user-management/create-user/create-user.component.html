@@ -1,0 +1,21 @@
+<form [formGroup]="userForm">
+  <div class="user-management-form">
+    <mat-card>
+      <mat-form-field class="matInput">
+        <input formControlName="email" matInput placeholder="Email">
+      </mat-form-field>
+      <mat-form-field class="matInput">
+        <input type="password" formControlName="password" matInput placeholder="Password">
+      </mat-form-field>
+      <mat-form-field class="matInput">
+        <input type="password" formControlName="confirmPassword" matInput placeholder="Confirm Password">
+      </mat-form-field>
+      <br />
+      <button (click)="createUser()" mat-raised-button color="primary" [disabled]="!userForm.valid">Create User</button>
+    </mat-card>
+  </div>
+</form>
+
+
+
+

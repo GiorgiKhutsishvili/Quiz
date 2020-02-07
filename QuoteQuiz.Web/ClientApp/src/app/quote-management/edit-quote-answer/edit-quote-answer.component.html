@@ -1,0 +1,19 @@
+<form [formGroup]="editQuoteAnswerForm">
+  <div class="quote-management-form">
+    <input type="hidden" formControlName="id" />
+    <!--<input type="hidden" formControlName="quoteId" />-->
+    <mat-card>
+      <mat-form-field formGroupName="quote" class="matInput">
+        <input type="hidden" formControlName="id" />
+        <textarea formControlName="quoteText" matInput placeholder="Quote"></textarea>
+      </mat-form-field>
+      <!--<mat-form-field class="matInput">
+        <input formControlName="answerText" matInput placeholder="Answer">
+      </mat-form-field>
+      <mat-checkbox formControlName="isCorrect">Is Correct</mat-checkbox>
+      <br /><br />-->
+      <button (click)="updateQuoteAnswer()" mat-raised-button color="primary" [disabled]="!editQuoteAnswerForm.valid">Update</button>
+    </mat-card>
+  </div>
+</form>
+

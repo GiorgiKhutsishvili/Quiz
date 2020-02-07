@@ -1,0 +1,15 @@
+<form [formGroup]="editUserForm">
+  <div class="user-management-form">
+    <mat-card>
+      <input type="hidden" formControlName="id"/>
+      <mat-form-field class="matInput">
+        <input formControlName="userName" matInput placeholder="User Name">
+      </mat-form-field>
+      <mat-form-field class="matInput">
+        <input formControlName="email" matInput placeholder="Email">
+      </mat-form-field>
+      <br /><br />
+      <button (click)="updateUser()" mat-raised-button color="primary" [disabled]="!editUserForm.valid">Update</button>
+    </mat-card>
+  </div>
+</form>

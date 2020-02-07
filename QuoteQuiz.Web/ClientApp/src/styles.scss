@@ -1,0 +1,41 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.fill-form {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  height: 20%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.matInput{
+  width:100%;
+}
+
+.quote-management-form {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  height: 20%;
+  position: absolute;
+  left: 50%;
+  top: 25%;
+  transform: translate(-50%, -50%);
+}
+
+.user-management-form {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  height: 20%;
+  position: absolute;
+  left: 50%;
+  top: 25%;
+  transform: translate(-50%, -50%);
+}

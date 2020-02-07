@@ -1,0 +1,20 @@
+<mat-horizontal-stepper>
+  <mat-step *ngFor="let quote of quotes">
+    <mat-card style="background-color:deeppink; color:white;">{{quote.quoteText}}</mat-card>
+    <br />
+    <mat-list id="{{quote.id}}">
+      <mat-list-item (click)="checkAnswer(answer.id, quote.id)" *ngFor="let answer of quote.answers" style="cursor: pointer; background-color:gray; color: white">
+        {{answer.answerText}}
+      </mat-list-item>
+      <br />
+    </mat-list>
+
+
+    <span>{{message}}</span>
+    <br /><br />
+    <div>
+      <button (click)="back(quote.id)" mat-raised-button color="primary" matStepperPrevious>Back</button>&nbsp;
+      <button (click)="next(quote.id)" mat-raised-button color="primary" matStepperNext>Next</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

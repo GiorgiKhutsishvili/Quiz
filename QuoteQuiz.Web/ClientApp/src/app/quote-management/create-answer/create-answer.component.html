@@ -1,0 +1,21 @@
+<form [formGroup]="answerForm">
+  <div class="quote-management-form">
+    <mat-card>
+      <mat-form-field class="matInput">
+        <mat-label>Quote</mat-label>
+        <mat-select (selectionChange)="onQuoteChange($event.value)">
+          <mat-option *ngFor="let quote of quotes" [value]="quote.id">
+            {{quote.quoteText}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <input type="hidden" formControlName="quoteId" />
+      <mat-form-field class="matInput">
+        <textarea formControlName="answerText" matInput placeholder="Answer"></textarea>
+      </mat-form-field>
+      <mat-checkbox formControlName="isCorrect">Is Correct</mat-checkbox>
+      <br /><br />
+      <button (click)="addAnswer()" mat-raised-button color="primary" [disabled]="!answerForm.valid">Add</button>
+    </mat-card>
+  </div>
+</form>

@@ -59,6 +59,8 @@ import { AdministrationService } from './services/administration/administration.
 import { EditUserComponent } from './user-management/edit-user/edit-user.component';
 import { UserAchievementsComponent } from './user-achievements/user-achievements.component';
 import { UserAchievementsService } from './services/user-achievements/user-achievements.service';
+import { EditQuoteDialogComponent } from './quote-management/edit-quote-dialog/edit-quote-dialog.component';
+import { EditAnswerDialogComponent } from './quote-management/edit-answer-dialog/edit-answer-dialog.component';
 
 
 
@@ -83,7 +85,13 @@ import { UserAchievementsService } from './services/user-achievements/user-achie
         CreateUserComponent,
         CreateRoleComponent,
         EditUserComponent,
-        UserAchievementsComponent
+        UserAchievementsComponent,
+        EditQuoteDialogComponent,
+        EditAnswerDialogComponent
+    ],
+    entryComponents: [
+        EditQuoteDialogComponent,
+        EditAnswerDialogComponent
     ],
     imports: [
         BrowserModule,

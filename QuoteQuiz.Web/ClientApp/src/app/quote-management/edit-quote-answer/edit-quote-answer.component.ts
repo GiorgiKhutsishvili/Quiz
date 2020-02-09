@@ -13,12 +13,10 @@ import { QuoteModel } from '../../services/quote/models/QuoteModel';
 })
 export class EditQuoteAnswerComponent implements OnInit {
   quoteId: string;
-  //answerModel: AnswerModel = new AnswerModel();
   quoteModel: QuoteModel = new QuoteModel();
-  //answers: AnswerModel[] = new Array<AnswerModel>();
   editQuoteAnswerForm = new FormGroup({
     id: new FormControl(''),
-    quoteId: new FormControl('')
+      quoteText: new FormControl('')
     //quoteText: new FormControl(''),
     //answerText: new FormControl(''),
     //isCorrect: new FormControl('')
@@ -48,9 +46,6 @@ export class EditQuoteAnswerComponent implements OnInit {
       this.quoteService.getQupteById(this.quoteId).subscribe(response => {
         this.quoteModel = response;
         console.log("quoteModel", this.quoteModel);
-
-        //this.answers = this.answerModel.quote.answers;
-        //console.log("a", this.answers);
 
         this.editQuoteAnswerForm.patchValue({
           id: this.quoteModel.id,

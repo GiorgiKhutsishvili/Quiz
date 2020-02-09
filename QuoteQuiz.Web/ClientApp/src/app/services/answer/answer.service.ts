@@ -9,35 +9,37 @@ import { AnswerModel } from './models/AnswerModel';
 
 export class AnswerService {
 
-  private readonly createOrUpdateUrl = 'api/Answers/CreateOrUpdate';
-  //private readonly updateUrl = 'api/Answers/Update';
-  private readonly checkAnswerUrl = 'api/Answers/CheckAnswer'
-  private readonly answersUrl = 'api/Answers/GetAnswers';
-  private readonly getAnswerByIdUrl = 'api/Answers/GetAnswerById';
+    private readonly createOrUpdateUrl = 'api/Answers/CreateOrUpdate';
+    //private readonly updateUrl = 'api/Answers/Update';
+    private readonly checkAnswerUrl = 'api/Answers/CheckAnswer'
+    private readonly answersUrl = 'api/Answers/GetAnswers';
+    private readonly getAnswerByIdUrl = 'api/Answers/GetAnswerById';
+    private readonly deleteUrl = 'api/Answers/Delete';
 
-  private requestOptions: Object = {
-    responseType: 'text'
-  };
 
-  constructor(private http: HttpClient, private router: Router) { }
+    private requestOptions: Object = {
+        responseType: 'text'
+    };
 
-  getAnswers(): Observable<AnswerModel[]> {
-    return this.http.get<AnswerModel[]>(this.answersUrl);
-  }
+    constructor(private http: HttpClient, private router: Router) { }
 
-  getAnswerById(answerId: string): Observable<AnswerModel> {
-    return this.http.get<AnswerModel>(this.getAnswerByIdUrl + '/' + answerId);
-  }
+    getAnswers(): Observable<AnswerModel[]> {
+        return this.http.get<AnswerModel[]>(this.answersUrl);
+    }
 
-  createOrUpdate(model: AnswerModel): Observable<AnswerModel> {
-    return this.http.post<AnswerModel>(this.createOrUpdateUrl, model);
-  }
+    getAnswerById(answerId: string): Observable<AnswerModel> {
+        return this.http.get<AnswerModel>(this.getAnswerByIdUrl + '/' + answerId);
+    }
 
-  checkAnswer(answerId: string) {
-    return this.http.get<any>(this.checkAnswerUrl + '/' + answerId, this.requestOptions);
-  }
+    createOrUpdate(model: AnswerModel): Observable<AnswerModel> {
+        return this.http.post<AnswerModel>(this.createOrUpdateUrl, model);
+    }
 
-  //updateAnswer(model: AnswerModel): Observable<AnswerModel> {
-  //  return this.http.put<AnswerModel>(this.updateUrl, model);
-  //}
+    checkAnswer(answerId: string) {
+        return this.http.get<any>(this.checkAnswerUrl + '/' + answerId, this.requestOptions);
+    }
+
+    deleteAnswer(answerId: string) {
+        return this.http.delete(this.deleteUrl + '/' + answerId);
+    }
 }

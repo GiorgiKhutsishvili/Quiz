@@ -1,0 +1,55 @@
+<form [formGroup]="editQuoteForm">
+
+  <mat-form-field class="matInput">
+    <input type="hidden" formControlName="id" />
+    <textarea formControlName="quoteText" matInput placeholder="Quote"></textarea>
+  </mat-form-field>
+  <br />
+  <mat-form-field class="matInput">
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  </mat-form-field>
+
+
+
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" style="width:100%">
+
+    <ng-container matColumnDef="editColumnDef">
+      <th mat-header-cell *matHeaderCellDef> </th>
+      <td mat-cell *matCellDef="let answer">
+        <mat-chip-list aria-label="Fish selection">
+          <mat-chip (click)="editAnswer(answer.id)" style="cursor: pointer; background-color:cadetblue; font-size: 12px;" selected>Edit</mat-chip>
+        </mat-chip-list>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="deleteColumnDef">
+      <th mat-header-cell *matHeaderCellDef> </th>
+      <td mat-cell *matCellDef="let answer">
+        <mat-chip-list aria-label="Fish selection">
+          <mat-chip (click)="deleteAnswer(answer.id)" style="cursor: pointer; background-color:red; font-size: 12px;" selected>Delete</mat-chip>
+        </mat-chip-list>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="answer">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Answer </th>
+      <td mat-cell *matCellDef="let answer"> {{answer.answerText}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="isCorrect">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Is Correct </th>
+      <td mat-cell *matCellDef="let answer">  {{answer.isCorrect}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  <button (click)="updateQuote()" mat-raised-button color="primary" [disabled]="!editQuoteForm.valid">Update</button>&nbsp;
+  <button (click)="onCancelClick()" mat-raised-button color="primary">Cancel</button>
+  <!--<mat-card>
+
+  </mat-card>-->
+</form>
+

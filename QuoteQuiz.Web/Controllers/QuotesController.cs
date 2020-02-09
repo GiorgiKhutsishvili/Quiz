@@ -18,12 +18,10 @@ namespace QuoteQuiz.Web.Controllers
     [ApiController]
     public class QuotesController : ControllerBase
     {
-        //private readonly IQuoteRepository _quoteRepository;
         private readonly IGenericRepository<Quote> _quotesRepository;
         private readonly IMapper _mapper;
-        public QuotesController(/*IQuoteRepository quoteRepository,*/ IGenericRepository<Quote> quotesRepository, IMapper mapper)
+        public QuotesController(IGenericRepository<Quote> quotesRepository, IMapper mapper)
         {
-            //_quoteRepository = quoteRepository;
             _quotesRepository = quotesRepository;
             _mapper = mapper;
         }
@@ -31,7 +29,6 @@ namespace QuoteQuiz.Web.Controllers
         [HttpGet]
         public async Task<IEnumerable<QuoteModel>> GetQuotes()
         {
-            //var result = await _quoteRepository.GetQuotes();
             var result = await _quotesRepository.GetAll();
 
             return _mapper.Map<IEnumerable<Quote>, IEnumerable<QuoteModel>>(result);
@@ -40,7 +37,6 @@ namespace QuoteQuiz.Web.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetQuoteById(Guid id)
         {
-            //var entity = await _quoteRepository.GetQuoteById(id);
             var entity = await _quotesRepository.GetById(id);
 
             if (entity == null)
@@ -52,25 +48,70 @@ namespace QuoteQuiz.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrUpdate([FromBody] QuoteModel model)
+        public async Task<IActionResult> Create([FromBody] QuoteModel model)
         {
             try
             {
+                if (model == null)
+                    return BadRequest("Model is null");
 
                 var entity = EntitiesFactory.CreateEntity<Quote>();
 
                 _mapper.Map(model, entity);
 
 
-                var result = await _quotesRepository.CreateOrUpdate(entity);
-
+                var result = await _quotesRepository.Create(entity);
                 return Ok(result);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return BadRequest(e.Message + ", " + e.StackTrace);
             }
-            
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update([FromBody] QuoteModel model)
+        {
+            try
+            {
+                if (model == null)
+                    return BadRequest("Model is null");
+
+                var quote = await _quotesRepository.GetById(model.Id);
+
+                if (quote == null)
+                    return BadRequest("quote is null");
+
+                _mapper.Map(model, quote);
+
+                var result = await _quotesRepository.Update(quote);
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateOrUpdate([FromBody] QuoteModel model)
+        {
+            try
+            {
+                if (model == null)
+                    return BadRequest("Model is null");
+
+                if (model.Id == null || model.Id == Guid.Empty)
+                    return await Create(model);
+
+                return await Update(model);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpDelete("{id}")]

@@ -17,19 +17,15 @@ namespace QuoteQuiz.Web.Controllers
     [ApiController]
     public class AnswersController : ControllerBase
     {
-        //private readonly IAnswerRepository _answerRepository;
         private readonly IGenericRepository<Answer> _answersRepository;
-        private readonly IGenericRepository<Quote> _quotesRepository;
         private readonly IGenericRepository<UserAnswer> _userAnswersRepository;
 
         private readonly IMapper _mapper;
 
         public AnswersController(IGenericRepository<Quote> quotesRepository, IGenericRepository<Answer> answersRepository, IGenericRepository<UserAnswer> userAnswersRepository, IMapper mapper)
         {
-            //_answerRepository = answerRepository;
             _answersRepository = answersRepository;
             _userAnswersRepository = userAnswersRepository;
-            _quotesRepository = quotesRepository;
             _mapper = mapper;
         }
 
@@ -133,7 +129,7 @@ namespace QuoteQuiz.Web.Controllers
 
         }
 
-        [HttpPut("{id}")]
+        [HttpPost]
         public async Task<IActionResult> Update([FromBody] AnswerModel model)
         {
             try
@@ -143,21 +139,11 @@ namespace QuoteQuiz.Web.Controllers
 
                 var answer = await _answersRepository.GetById(model.Id);
 
-                if(answer == null)
-                    return BadRequest("answer is null");
+                if (answer == null)
+                    return BadRequest("quote is null");
 
                 _mapper.Map(model, answer);
 
-                var quote = answer.Quote;
-
-                if (quote == null)
-                    return BadRequest("quote is null");
-
-                _mapper.Map(model.Quote, quote);
-
-                await _quotesRepository.Update(quote);
-
-                answer.Quote = quote;
                 var result = await _answersRepository.Update(answer);
 
                 return Ok(result);
@@ -187,21 +173,18 @@ namespace QuoteQuiz.Web.Controllers
             }
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var answer = await _answersRepository.GetById(id);
 
-        //[HttpPut]
-        //public async Task<IActionResult> Update([FromBody] AnswerModel model)
-        //{
-        //    try
-        //    {
-        //        var entity = await _answerRepository.Update(model);
-        //        var result = _mapper.Map<Answer, AnswerModel>(entity);
-        //        return Ok(result);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return BadRequest(e.Message + ", " + e.StackTrace);
-        //    }
+            if (answer == null)
+                return BadRequest();
 
-        //}
+            var result = await _answersRepository.Delete(id);
+
+            return Ok(result);
+
+        }
     }
 }

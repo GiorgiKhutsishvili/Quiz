@@ -1,0 +1,10 @@
+<form [formGroup]="editAnswerForm">
+  <input type="hidden" formControlName="quoteId" />
+  <mat-form-field class="matInput">
+    <textarea formControlName="answerText" matInput placeholder="Answer"></textarea>
+  </mat-form-field>
+  <mat-checkbox formControlName="isCorrect">Is Correct</mat-checkbox>
+  <br /><br />
+  <button (click)="updateAnswer()" mat-raised-button color="primary" [disabled]="!editAnswerForm.valid">Update</button>&nbsp;
+  <button (click)="onCancelClick()" mat-raised-button color="primary">Cancel</button>
+</form>

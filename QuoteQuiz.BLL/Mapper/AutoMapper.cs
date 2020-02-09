@@ -11,6 +11,7 @@ namespace QuoteQuiz.BLL.Mapper
         {
             CreateMap<QuoteModel, Quote>()
                 .ForMember(n => n.Id, m => m.Ignore())
+                .ForMember(n => n.Answers, m => m.Ignore())
                 .ForMember(n => n.DateDeleted, m => m.Ignore())
                 .ForMember(n => n.DateCreated, m => m.Ignore());
 

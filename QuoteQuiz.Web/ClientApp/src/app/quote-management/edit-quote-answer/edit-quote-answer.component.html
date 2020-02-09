@@ -1,17 +1,50 @@
 <form [formGroup]="editQuoteAnswerForm">
   <div class="quote-management-form">
-    <input type="hidden" formControlName="id" />
-    <!--<input type="hidden" formControlName="quoteId" />-->
     <mat-card>
-      <mat-form-field formGroupName="quote" class="matInput">
+      <mat-form-field class="matInput">
         <input type="hidden" formControlName="id" />
         <textarea formControlName="quoteText" matInput placeholder="Quote"></textarea>
       </mat-form-field>
-      <!--<mat-form-field class="matInput">
-        <input formControlName="answerText" matInput placeholder="Answer">
+      <br />
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
       </mat-form-field>
-      <mat-checkbox formControlName="isCorrect">Is Correct</mat-checkbox>
-      <br /><br />-->
+
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+        <ng-container matColumnDef="editColumnDef">
+          <th mat-header-cell *matHeaderCellDef> </th>
+          <td mat-cell *matCellDef="let quote">
+            <mat-chip-list aria-label="Fish selection">
+              <mat-chip (click)="editAnswer(answer.id)" style="cursor: pointer; background-color:cadetblue; font-size: 12px;" selected>Edit</mat-chip>
+            </mat-chip-list>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="deleteColumnDef">
+          <th mat-header-cell *matHeaderCellDef> </th>
+          <td mat-cell *matCellDef="let quote">
+            <mat-chip-list aria-label="Fish selection">
+              <mat-chip (click)="deleteAnswer(answer.id)" style="cursor: pointer; background-color:red; font-size: 12px;" selected>Delete</mat-chip>
+            </mat-chip-list>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Answer">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Answer </th>
+          <td mat-cell *matCellDef="let answer"> {{answer.answerText}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="IsCorrect">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Is Correct </th>
+          <td mat-cell *matCellDef="let answer">  {{answer.isCorrect}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
       <button (click)="updateQuoteAnswer()" mat-raised-button color="primary" [disabled]="!editQuoteAnswerForm.valid">Update</button>
     </mat-card>
   </div>

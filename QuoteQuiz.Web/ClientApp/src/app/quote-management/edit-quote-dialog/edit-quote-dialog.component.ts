@@ -110,7 +110,7 @@ export class EditQuoteDialogComponent implements OnInit {
         if (confirm('Are you sure you want to delete this answer?')) {
             this.answerService.deleteAnswer(answerId).subscribe(response => {
                 console.log(response);
-                if (response === null) {
+                if (response) {
                     this.ngOnInit();
                 }
             });

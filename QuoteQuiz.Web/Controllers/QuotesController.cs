@@ -39,6 +39,10 @@ namespace QuoteQuiz.Web.Controllers
         {
             var entity = await _quotesRepository.GetById(id);
 
+            var answers = entity.Answers.Where(x => x.DateDeleted == null);
+
+            entity.Answers = answers.ToList();
+
             if (entity == null)
                 return NotFound();
 
@@ -122,27 +126,15 @@ namespace QuoteQuiz.Web.Controllers
             if (quote == null)
                 return BadRequest();
 
-            await _quotesRepository.Delete(id);
+            foreach(var item in quote.Answers)
+            {
+                item.DateDeleted = DateTime.Now;
+            }
+            var result = await _quotesRepository.Delete(id);
 
-            return Ok();
+            return Ok(result);
 
         }
-
-        //[HttpPut]
-        //public async Task<IActionResult> Update([FromBody] QuoteModel model)
-        //{
-        //    try
-        //    {
-        //        var entity = await _quoteRepository.Update(model);
-        //        var result = _mapper.Map<Quote, QuoteModel>(entity);
-        //        return Ok(result);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return BadRequest(e.Message + ", " + e.StackTrace);
-        //    }
-
-        //}
 
 
     }

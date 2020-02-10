@@ -18,6 +18,7 @@ namespace QuoteQuiz.Web.Controllers
     public class AnswersController : ControllerBase
     {
         private readonly IGenericRepository<Answer> _answersRepository;
+        private readonly IGenericRepository<Quote> _quotesRepository;
         private readonly IGenericRepository<UserAnswer> _userAnswersRepository;
 
         private readonly IMapper _mapper;
@@ -25,6 +26,7 @@ namespace QuoteQuiz.Web.Controllers
         public AnswersController(IGenericRepository<Quote> quotesRepository, IGenericRepository<Answer> answersRepository, IGenericRepository<UserAnswer> userAnswersRepository, IMapper mapper)
         {
             _answersRepository = answersRepository;
+            _quotesRepository = quotesRepository;
             _userAnswersRepository = userAnswersRepository;
             _mapper = mapper;
         }
@@ -114,6 +116,11 @@ namespace QuoteQuiz.Web.Controllers
                 if (model == null)
                     return BadRequest("Model is null");
 
+                var isExists = await IsExists(model);
+
+                if (isExists)
+                    return BadRequest("Only One Correct Answer Is Allowed");
+
                 var entity = EntitiesFactory.CreateEntity<Answer>();
 
                 _mapper.Map(model, entity);
@@ -127,6 +134,22 @@ namespace QuoteQuiz.Web.Controllers
                 return BadRequest(e.Message + ", " + e.StackTrace);
             }
 
+        }
+
+        public async Task<Boolean> IsExists(AnswerModel model)
+        {
+            var quote = await _quotesRepository.GetById(model.QuoteId.GetValueOrDefault());
+
+
+            foreach(var item in quote.Answers)
+            {
+                if(item.IsCorrect == true && model.IsCorrect == true)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         [HttpPost]
@@ -186,5 +209,7 @@ namespace QuoteQuiz.Web.Controllers
             return Ok(result);
 
         }
+
+
     }
 }

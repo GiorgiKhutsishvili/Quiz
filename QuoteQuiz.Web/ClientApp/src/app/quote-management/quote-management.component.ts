@@ -86,7 +86,7 @@ export class QuoteManagementComponent implements OnInit {
         if (confirm('Are you sure you want to delete this quote? All answers to this quote also will be deleted.')) {
             this.quoteService.deleteQuote(quoteId).subscribe(response => {
                 console.log(response);
-                if (response === null) {
+                if (response) {
                     this.ngOnInit();
                 }
             });

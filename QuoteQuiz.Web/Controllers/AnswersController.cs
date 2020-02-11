@@ -126,7 +126,9 @@ namespace QuoteQuiz.Web.Controllers
                 _mapper.Map(model, entity);
 
 
-                var result = await _answersRepository.Create(entity);
+                var answer = await _answersRepository.Create(entity);
+
+                var result = _mapper.Map(answer, model);
                 return Ok(result);
             }
             catch (Exception e)
@@ -140,8 +142,9 @@ namespace QuoteQuiz.Web.Controllers
         {
             var quote = await _quotesRepository.GetById(model.QuoteId.GetValueOrDefault());
 
+            var entities = quote.Answers.Where(x => x.DateDeleted == null);
 
-            foreach(var item in quote.Answers)
+            foreach(var item in entities)
             {
                 if(item.IsCorrect == true && model.IsCorrect == true)
                 {
@@ -160,14 +163,16 @@ namespace QuoteQuiz.Web.Controllers
                 if (model == null)
                     return BadRequest("Model is null");
 
-                var answer = await _answersRepository.GetById(model.Id);
+                var entity = await _answersRepository.GetById(model.Id);
 
-                if (answer == null)
+                if (entity == null)
                     return BadRequest("quote is null");
 
-                _mapper.Map(model, answer);
+                _mapper.Map(model, entity);
 
-                var result = await _answersRepository.Update(answer);
+                var answer = await _answersRepository.Update(entity);
+
+                var result = _mapper.Map(answer, model);
 
                 return Ok(result);
             }

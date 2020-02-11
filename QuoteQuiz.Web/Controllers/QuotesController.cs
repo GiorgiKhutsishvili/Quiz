@@ -29,9 +29,16 @@ namespace QuoteQuiz.Web.Controllers
         [HttpGet]
         public async Task<IEnumerable<QuoteModel>> GetQuotes()
         {
-            var result = await _quotesRepository.GetAll();
+            var quotes = await _quotesRepository.GetAll();
 
-            return _mapper.Map<IEnumerable<Quote>, IEnumerable<QuoteModel>>(result);
+            var answersLp = quotes.SelectMany(x => x.Answers.Where(n => n.DateDeleted == null)).ToLookup(x => x.QuoteId);
+
+            foreach(var item in quotes)
+            {
+                item.Answers = answersLp[item.Id].ToList();
+            }
+
+            return _mapper.Map<IEnumerable<Quote>, IEnumerable<QuoteModel>>(quotes);
         }
 
         [HttpGet("{id}")]
@@ -64,7 +71,9 @@ namespace QuoteQuiz.Web.Controllers
                 _mapper.Map(model, entity);
 
 
-                var result = await _quotesRepository.Create(entity);
+                var quote = await _quotesRepository.Create(entity);
+
+                var result = _mapper.Map(quote, model);
                 return Ok(result);
             }
             catch (Exception e)
@@ -82,14 +91,16 @@ namespace QuoteQuiz.Web.Controllers
                 if (model == null)
                     return BadRequest("Model is null");
 
-                var quote = await _quotesRepository.GetById(model.Id);
+                var entity = await _quotesRepository.GetById(model.Id);
 
-                if (quote == null)
+                if (entity == null)
                     return BadRequest("quote is null");
 
-                _mapper.Map(model, quote);
+                _mapper.Map(model, entity);
 
-                var result = await _quotesRepository.Update(quote);
+                var quote = await _quotesRepository.Update(entity);
+
+                var result = _mapper.Map(quote, model);
 
                 return Ok(result);
             }

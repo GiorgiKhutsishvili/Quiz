@@ -24,7 +24,7 @@ export class CreateAnswerComponent implements OnInit {
         this.answerForm = fb.group({
             quoteId: [''],
             answerText: ['', Validators.required],
-            isCorrect: ['', Validators.required]
+            isCorrect: ['']
         });
     }
 
@@ -32,6 +32,10 @@ export class CreateAnswerComponent implements OnInit {
         this.quoteService.getQuotes().subscribe(response => {
             this.quotes = response;
             console.log(this.quotes);
+        });
+
+        this.answerForm.patchValue({
+            isCorrect: false
         });
     }
     onQuoteChange(quoteId) {

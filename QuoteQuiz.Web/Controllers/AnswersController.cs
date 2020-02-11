@@ -43,7 +43,6 @@ namespace QuoteQuiz.Web.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAnswerById(Guid id)
         {
-            //var entity = await _answerRepository.GetAnswerById(id);
             var entity = await _answersRepository.GetById(id);
 
             if (entity == null)
@@ -59,7 +58,6 @@ namespace QuoteQuiz.Web.Controllers
         {
             string message = null;
 
-            //var entity = await _answerRepository.GetAnswerById(id);
             var entity = await _answersRepository.GetById(id);
 
             if (entity == null)
@@ -67,7 +65,7 @@ namespace QuoteQuiz.Web.Controllers
 
             var result = _mapper.Map<Answer, AnswerModel>(entity);
 
-            var userId = HttpContext.User.Claims.First().Value;
+            var userId = HttpContext.User.Claims.FirstOrDefault();
             if (userId == null)
                 return NotFound("UserId Is Not Found");
 
@@ -75,7 +73,7 @@ namespace QuoteQuiz.Web.Controllers
             {
                 QuoteId = result.QuoteId,
                 AnswerId = result.Id,
-                UserId = Guid.Parse(userId),
+                UserId = Guid.Parse(userId.Value),
                 IsCorrect = result.IsCorrect
             };
 
@@ -84,14 +82,12 @@ namespace QuoteQuiz.Web.Controllers
             _mapper.Map(userAnswerModel, userAnswer);
 
             if (userAnswer != null)
-                //await _answerRepository.Create(userAnswerModel);
                 await _userAnswersRepository.CreateOrUpdate(userAnswer);
 
 
             if (result.IsCorrect == true)
             {
-                //message = string.Format("{0}{1}", "Correct, The Right Answer Is: ", result.AnswerText);
-                message = $"{0}{1}, {"Correct, The Right Answer Is: "}, {result.AnswerText}";
+                message = $"{"Correct, The Right Answer Is: "} {result.AnswerText}";
             }
             else
             {
@@ -100,8 +96,7 @@ namespace QuoteQuiz.Web.Controllers
                 if (correctAnswer == null)
                     return NotFound("Correct Answer Is Not Found");
 
-                //message = string.Format("{0}{1}", "Sorry, you are wrong! The right answer is: ", correctAnswer.AnswerText);
-                message = $"{0}{1}, {"Sorry, you are wrong! The right answer is: "},{correctAnswer.AnswerText}";
+                message = $"{"Sorry, you are wrong! The right answer is: "} {correctAnswer.AnswerText}";
             }
 
 
@@ -116,15 +111,16 @@ namespace QuoteQuiz.Web.Controllers
                 if (model == null)
                     return BadRequest("Model is null");
 
-                var isExists = await IsExists(model);
-
-                if (isExists)
-                    return BadRequest("Only One Correct Answer Is Allowed");
+                
 
                 var entity = EntitiesFactory.CreateEntity<Answer>();
 
                 _mapper.Map(model, entity);
 
+                var isCorrect = await IsCorrect(model);
+
+                if (isCorrect)
+                    return BadRequest("Only One Correct Answer Is Allowed");
 
                 var answer = await _answersRepository.Create(entity);
 
@@ -138,19 +134,24 @@ namespace QuoteQuiz.Web.Controllers
 
         }
 
-        public async Task<Boolean> IsExists(AnswerModel model)
+        public async Task<Boolean> IsCorrect(AnswerModel model)
         {
             var quote = await _quotesRepository.GetById(model.QuoteId.GetValueOrDefault());
 
             var entities = quote.Answers.Where(x => x.DateDeleted == null);
+            var s = entities.Where(x => x.IsCorrect == true).Count();
 
-            foreach(var item in entities)
+            if (s > 1)
             {
-                if(item.IsCorrect == true && model.IsCorrect == true)
-                {
-                    return true;
-                }
+                return true;
             }
+            //foreach (var item in entities)
+            //{
+            //    if (item.IsCorrect == true && model.IsCorrect == true)
+            //    {
+            //        return true;
+            //    }
+            //}
 
             return false;
         }
@@ -163,12 +164,19 @@ namespace QuoteQuiz.Web.Controllers
                 if (model == null)
                     return BadRequest("Model is null");
 
+               
+
                 var entity = await _answersRepository.GetById(model.Id);
 
                 if (entity == null)
                     return BadRequest("quote is null");
 
                 _mapper.Map(model, entity);
+
+                var isCorrect = await IsCorrect(model);
+
+                if (isCorrect)
+                    return BadRequest("Only One Correct Answer Is Allowed");
 
                 var answer = await _answersRepository.Update(entity);
 

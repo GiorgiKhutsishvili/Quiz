@@ -53,11 +53,19 @@ export class EditQuoteDialogComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed');
+           
+            if (result !== null) {
+                this.ngOnInit();
+            }
         });
     }
 
     onCancelClick(): void {
+        this.dialogRef.close();
+    }
+
+    oNaddAnswer(): void {
+        console.log("ssss");
         this.dialogRef.close();
     }
 
@@ -100,9 +108,9 @@ export class EditQuoteDialogComponent implements OnInit {
         console.log("updateQuote model", this.quoteModel);
         this.quoteService.createOrUpdate(this.quoteModel).subscribe(response => {
             console.log(response);
+            this.dialogRef.close({ updateQuoteResponse: response.id });
         });
 
-        this.dialogRef.close();
     }
 
     deleteAnswer(answerId: string) {

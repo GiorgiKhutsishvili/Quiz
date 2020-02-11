@@ -5,6 +5,6 @@ export class AnswerModel {
     quoteId: string;
     answerText: string;
     quoteText: string;
-    isCorrect: boolean;
+    isCorrect?: boolean;
     quote: QuoteModel = new QuoteModel();
 }

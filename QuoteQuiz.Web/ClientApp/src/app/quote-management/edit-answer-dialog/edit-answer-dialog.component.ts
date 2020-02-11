@@ -12,7 +12,7 @@ import { AnswerService } from '../../services/answer/answer.service';
 export class EditAnswerDialogComponent implements OnInit {
 
     answerModel: AnswerModel = new AnswerModel();
-
+    
     editAnswerForm = new FormGroup({
         id: new FormControl(''),
         quoteId: new FormControl(''),
@@ -31,7 +31,7 @@ export class EditAnswerDialogComponent implements OnInit {
             id: [''],
             quoteId: [''],
             answerText: ['', Validators.required],
-            isCorrect: ['', Validators.required]
+            isCorrect: ['']
         });
     }
 
@@ -61,10 +61,12 @@ export class EditAnswerDialogComponent implements OnInit {
         this.answerModel = this.editAnswerForm.value;
         console.log("updateAnswer model", this.answerModel);
         this.answerService.createOrUpdate(this.answerModel).subscribe(response => {
+
+            this.dialogRef.close({ updateAnswerResponse: response.id });
+
             console.log(response);
         });
 
-        this.dialogRef.close();
 
     }
 

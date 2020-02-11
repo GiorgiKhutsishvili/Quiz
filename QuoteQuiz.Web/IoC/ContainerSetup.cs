@@ -31,7 +31,7 @@ namespace QuoteQuiz.Web.IoC
                 options.UseLazyLoadingProxies().
                     UseSqlServer(configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("QuoteQuiz.Web")));
 
-            
+
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<QuoteQuizContext>();
@@ -73,9 +73,7 @@ namespace QuoteQuiz.Web.IoC
 
         private static void AddRepositories(IServiceCollection services)
         {
-            //services.AddScoped<IQuoteRepository, QuoteRepository>();
-            //services.AddScoped<IAnswerRepository, AnswerRepository>();
-            //services.AddScoped<IUserAchievementsRepository, UserAchievementsRepository>();
+            services.AddScoped<IUserAchievementsRepository, UserAchievementsRepository>();
             services.AddScoped<IGenericRepository<Quote>, GenericRepository<Quote>>();
             services.AddScoped<IGenericRepository<Answer>, GenericRepository<Answer>>();
             services.AddScoped<IGenericRepository<UserAnswer>, GenericRepository<UserAnswer>>();

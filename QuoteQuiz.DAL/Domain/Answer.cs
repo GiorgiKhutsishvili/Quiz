@@ -16,8 +16,7 @@ namespace QuoteQuiz.DAL.Domain
         [Required]
         [StringLength(100)]
         public string AnswerText { get; set; }
-        [Required]
-        public bool IsCorrect { get; set; }
+        public bool? IsCorrect { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime? DateChanged { get; set; }
         public DateTime? DateDeleted { get; set; }

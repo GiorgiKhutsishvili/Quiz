@@ -1,6 +1,5 @@
 <div class="quote-management-form">
   <button mat-raised-button color="primary" [routerLink]="['/quote-management/create-quote']">Create Quote</button>&nbsp;&nbsp;
-  <button mat-raised-button color="primary" [routerLink]="['/quote-management/create-answer']">Add Answer</button>
   <br />
   <mat-form-field>
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">

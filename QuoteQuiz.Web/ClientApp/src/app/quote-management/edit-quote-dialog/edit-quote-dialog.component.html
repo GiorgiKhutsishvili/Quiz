@@ -9,7 +9,10 @@
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
   </mat-form-field>
 
+  <button (click)="oNaddAnswer()" mat-raised-button color="primary" [routerLink]="['/quote-management/create-answer']">Add Answer</button>
 
+
+  <br /><br />
 
   <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" style="width:100%">
 

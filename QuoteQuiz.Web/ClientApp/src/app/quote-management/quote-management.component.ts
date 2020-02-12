@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { QuoteModel } from '../services/quote/models/QuoteModel';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EditQuoteDialogComponent } from './edit-quote-dialog/edit-quote-dialog.component';
+declare let alertify: any;
 
 @Component({
     selector: 'app-quote-management',
@@ -89,6 +90,8 @@ export class QuoteManagementComponent implements OnInit {
             this.quoteService.deleteQuote(quoteId).subscribe(response => {
                 console.log(response);
                 if (response) {
+                    alertify.success("success");
+
                     this.ngOnInit();
                 }
             });

@@ -6,6 +6,7 @@ import { QuoteService } from '../../services/quote/quote.service';
 import { QuoteModel } from '../../services/quote/models/QuoteModel';
 import { EditAnswerDialogComponent } from '../edit-answer-dialog/edit-answer-dialog.component';
 import { AnswerService } from '../../services/answer/answer.service';
+declare let alertify: any;
 
 @Component({
     selector: 'app-edit-quote-dialog',
@@ -107,6 +108,9 @@ export class EditQuoteDialogComponent implements OnInit {
         this.quoteModel = this.editQuoteForm.value;
         console.log("updateQuote model", this.quoteModel);
         this.quoteService.createOrUpdate(this.quoteModel).subscribe(response => {
+            if (response.id !== null) {
+                alertify.success("success");
+            }
             console.log(response);
             this.dialogRef.close({ updateQuoteResponse: response.id });
         });
@@ -119,6 +123,7 @@ export class EditQuoteDialogComponent implements OnInit {
             this.answerService.deleteAnswer(answerId).subscribe(response => {
                 console.log(response);
                 if (response) {
+                    alertify.success("success");
                     this.ngOnInit();
                 }
             });

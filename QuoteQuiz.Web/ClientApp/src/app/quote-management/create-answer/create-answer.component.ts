@@ -4,11 +4,12 @@ import { QuoteModel } from '../../services/quote/models/QuoteModel';
 import { QuoteService } from '../../services/quote/quote.service';
 import { AnswerModel } from '../../services/answer/models/AnswerModel';
 import { AnswerService } from '../../services/answer/answer.service';
+declare let alertify: any;
 
 @Component({
-  selector: 'app-create-answer',
-  templateUrl: './create-answer.component.html',
-  styleUrls: ['./create-answer.component.scss']
+    selector: 'app-create-answer',
+    templateUrl: './create-answer.component.html',
+    styleUrls: ['./create-answer.component.scss']
 })
 export class CreateAnswerComponent implements OnInit {
 
@@ -49,11 +50,15 @@ export class CreateAnswerComponent implements OnInit {
 
     addAnswer() {
         this.model = this.answerForm.value;
-      console.log(this.model);
-      this.answerService.createOrUpdate(this.model).subscribe(response => {
+        console.log(this.model);
+        this.answerService.createOrUpdate(this.model).subscribe(response => {
+            if (response.id !== null) {
+                alertify.success("success");
+            }
             console.log(response);
         });
 
+        this.answerForm.controls['answerText'].reset();
     }
 
 }

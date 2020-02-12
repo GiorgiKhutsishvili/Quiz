@@ -3,6 +3,7 @@ import { AnswerModel } from '../../services/answer/models/AnswerModel';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { AnswerService } from '../../services/answer/answer.service';
+declare let alertify: any;
 
 @Component({
     selector: 'app-edit-answer-dialog',
@@ -61,7 +62,9 @@ export class EditAnswerDialogComponent implements OnInit {
         this.answerModel = this.editAnswerForm.value;
         console.log("updateAnswer model", this.answerModel);
         this.answerService.createOrUpdate(this.answerModel).subscribe(response => {
-
+            if (response.id !== null) {
+                alertify.success("success");
+            }
             this.dialogRef.close({ updateAnswerResponse: response.id });
 
             console.log(response);

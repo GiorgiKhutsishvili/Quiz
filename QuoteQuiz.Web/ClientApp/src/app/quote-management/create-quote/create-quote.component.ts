@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { QuoteModel } from '../../services/quote/models/QuoteModel';
 import { QuoteService } from '../../services/quote/quote.service';
-
+declare let alertify: any;
 @Component({
   selector: 'app-create-quote',
   templateUrl: './create-quote.component.html',
@@ -27,7 +27,12 @@ export class CreateQuoteComponent implements OnInit {
     addQuote() {
         this.model = this.quoteForm.value;
         this.quoteService.createOrUpdate(this.model).subscribe(response => {
+
             console.log(response);
+
+            if (response.id !== null) {
+                alertify.success("success");
+            }
         });
         this.quoteForm.reset();
 

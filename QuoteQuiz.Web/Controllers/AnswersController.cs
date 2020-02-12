@@ -85,7 +85,7 @@ namespace QuoteQuiz.Web.Controllers
                 await _userAnswersRepository.CreateOrUpdate(userAnswer);
 
 
-            if (result.IsCorrect == true)
+            if (result.IsCorrect)
             {
                 message = $"{"Correct, The Right Answer Is: "} {result.AnswerText}";
             }

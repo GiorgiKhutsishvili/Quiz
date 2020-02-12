@@ -139,20 +139,22 @@ namespace QuoteQuiz.Web.Controllers
             var quote = await _quotesRepository.GetById(model.QuoteId.GetValueOrDefault());
 
             var entities = quote.Answers.Where(x => x.DateDeleted == null);
-            var s = entities.Where(x => x.IsCorrect == true).Count();
+            var entitiesCount = entities.Where(x => x.IsCorrect == true).Count();
 
-            if (s > 1)
+            if (model.Id == null || model.Id == Guid.Empty)
             {
-                return true;
+                if (entities.Any(x => x.IsCorrect == true && model.IsCorrect))
+                    return true;
             }
-            //foreach (var item in entities)
-            //{
-            //    if (item.IsCorrect == true && model.IsCorrect == true)
-            //    {
-            //        return true;
-            //    }
-            //}
+            else
+            {
+                if (entitiesCount > 1)
+                {
+                    return true;
+                }
 
+            }
+            
             return false;
         }
 

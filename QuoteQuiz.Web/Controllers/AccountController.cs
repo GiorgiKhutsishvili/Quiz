@@ -76,7 +76,12 @@ namespace QuoteQuiz.Web.Controllers
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("this is the secret phrase"));
             var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
 
-            var jwt = new JwtSecurityToken(signingCredentials: signingCredentials, claims: claims);
+            var jwt = new JwtSecurityToken(
+                signingCredentials: signingCredentials,
+                claims: claims,
+                notBefore: DateTime.UtcNow,
+                expires: DateTime.UtcNow.AddMinutes(1)
+                );
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
     }

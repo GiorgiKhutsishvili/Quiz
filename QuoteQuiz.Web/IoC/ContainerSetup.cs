@@ -12,6 +12,7 @@ using QuoteQuiz.BLL.Repositories;
 using QuoteQuiz.DAL.Common;
 using QuoteQuiz.DAL.DataContext;
 using QuoteQuiz.DAL.Domain;
+using System;
 using System.Text;
 
 namespace QuoteQuiz.Web.IoC
@@ -52,7 +53,10 @@ namespace QuoteQuiz.Web.IoC
                     ValidateAudience = false,
                     ValidateIssuer = false,
                     ValidateLifetime = false,
-                    ValidateIssuerSigningKey = true
+                    ValidateIssuerSigningKey = true,
+                    RequireExpirationTime = true,
+                    ClockSkew = TimeSpan.Zero,
+                    //life
                 };
             });
 

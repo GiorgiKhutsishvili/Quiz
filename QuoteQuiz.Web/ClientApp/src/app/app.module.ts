@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -61,6 +61,7 @@ import { UserAchievementsComponent } from './user-achievements/user-achievements
 import { UserAchievementsService } from './services/user-achievements/user-achievements.service';
 import { EditQuoteDialogComponent } from './quote-management/edit-quote-dialog/edit-quote-dialog.component';
 import { EditAnswerDialogComponent } from './quote-management/edit-answer-dialog/edit-answer-dialog.component';
+import { AppErrorHandler } from './app.error-handler';
 
 
 
@@ -147,7 +148,8 @@ import { EditAnswerDialogComponent } from './quote-management/edit-answer-dialog
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptor,
             multi: true
-        }
+        },
+        {provide: ErrorHandler, useClass: AppErrorHandler}
     ],
     bootstrap: [AppComponent]
 })

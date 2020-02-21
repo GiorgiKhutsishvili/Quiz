@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Security.Claims;
 using QuoteQuiz.DAL.Domain;
+using System.Security.Cryptography;
 
 namespace QuoteQuiz.Web.Controllers
 {
@@ -27,7 +28,7 @@ namespace QuoteQuiz.Web.Controllers
             this.signInManager = signInManager;
         }
 
-       
+
 
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
@@ -83,6 +84,51 @@ namespace QuoteQuiz.Web.Controllers
                 expires: DateTime.UtcNow.AddMinutes(1)
                 );
             return new JwtSecurityTokenHandler().WriteToken(jwt);
+        }
+
+        string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomNumber);
+                return Convert.ToBase64String(randomNumber);
+            }
+        }
+
+        private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
+        {
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = false,
+                ValidateIssuer = false,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("this is the secret phrase")),
+                ValidateLifetime = false
+
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            SecurityToken securityToken;
+            var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
+            var jwtSecurityToken = securityToken as JwtSecurityToken;
+            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                throw new SecurityTokenException("Invalid token");
+
+            return principal;
+        }
+
+        [HttpPost]
+        public IActionResult Refresh(string token, string refreshToken)
+        {
+            var principal = GetPrincipalFromExpiredToken(token);
+            var userName = principal.Identity.Name;
+            var savedRefreshToken = "";
+
+            if (savedRefreshToken != refreshToken)
+                throw new SecurityTokenException("Invalid refresh token");
+
+            var newJwtToken = CreateToken();
         }
     }
 }

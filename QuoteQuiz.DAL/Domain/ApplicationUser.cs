@@ -8,6 +8,7 @@ namespace QuoteQuiz.DAL.Domain
 {
     public class ApplicationUser : IdentityUser
     {
+        public string Token { get; set; }
         public bool? IsEnabled { get; set; }
         public DateTime DateCreated { get; set; }
         public DateTime? DateChanged { get; set; }
